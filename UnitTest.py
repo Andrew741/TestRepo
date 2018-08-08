@@ -1,5 +1,12 @@
 import unittest
 from Logger import Logger
+from Workout import DBInterface
+import os.path
+
+#####################################
+#   Logger tests: mostly for proof of
+#   Concept     
+#####################################
 class SimpleTest(unittest.TestCase):
     def test_upper(self):
         self.assertEqual('foo'.upper(), 'FOO')
@@ -29,6 +36,12 @@ class LoggerTestCase(unittest.TestCase):
         suite.addTest(LoggerTestCase('test_log'))
         suite.addTest(LoggerTestCase('test_log_complex'))
         return suite        
-        
+
+class WorkoutTestCase(unittest.TestCase):
+    
+    def testDB_Init(self):
+        dbInit = DBInterface()
+        self.assertTrue(os.path.isfile('WorkoutHistory.db')
+    
 if __name__ == '__main__':
     unittest.main()
