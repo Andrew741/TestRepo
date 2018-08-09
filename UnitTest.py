@@ -1,16 +1,22 @@
 import unittest
 from Logger import Logger
 from Workout import DBInterface
+from Workout import Set
 import os.path
+import time 
 
 #####################################
-#   Logger tests: mostly for proof of
+#   Other tests: mostly for proof of
 #   Concept     
 #####################################
 class SimpleTest(unittest.TestCase):
     def test_upper(self):
         self.assertEqual('foo'.upper(), 'FOO')
         
+#####################################
+#   Logger tests: mostly for proof of
+#   Concept     
+#####################################        
 class LoggerTestCase(unittest.TestCase):
     def setUp(self):
         self.logger = Logger('Test.log')
@@ -38,10 +44,17 @@ class LoggerTestCase(unittest.TestCase):
         return suite        
 
 class WorkoutTestCase(unittest.TestCase):
-    
-    def testDB_Init(self):
-        dbInit = DBInterface()
-        self.assertTrue(os.path.isfile('WorkoutHistory.db')
+    def setUp(self):
+         self.dbInit = DBInterface()
+         self.sets = list()
+         self.sets.append(Set('Bench', 5, 140, 'Chest, Shoulders, Arms', time.strftime('%d%m%Y')))
+    def tearDown(self):        
+         print('tear down')
+    def testDB_Init(self):        
+        self.assertTrue(os.path.isfile('WorkoutHistory.db'))
+    def test_DB_Queue_Set(self):
+         self.dbInit.QueueSet(self.sets[0])
+         self.assertTrue(self.dbInit.QueueLevel == 1)
     
 if __name__ == '__main__':
     unittest.main()
