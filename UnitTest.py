@@ -45,16 +45,21 @@ class LoggerTestCase(unittest.TestCase):
 
 class WorkoutTestCase(unittest.TestCase):
     def setUp(self):
-         self.dbInit = DBInterface()
+         self.dbInit = DBInterface('WorkoutHistoryUnitTest')
          self.sets = list()
          self.sets.append(Set('Bench', 5, 140, 'Chest, Shoulders, Arms', time.strftime('%d%m%Y')))
-    def tearDown(self):        
+    def tearDown(self):  
+         #self.dbInit.RemoveTable()
+         self.sets = None
+         self.dbInit = None
          print('tear down')
     def testDB_Init(self):        
-        self.assertTrue(os.path.isfile('WorkoutHistory.db'))
+        self.assertTrue(os.path.isfile('WorkoutHistoryUnitTest.db'))
     def test_DB_Queue_Set(self):
          self.dbInit.QueueSet(self.sets[0])
-         self.assertTrue(self.dbInit.QueueLevel == 1)
-    
+         self.assertTrue(self.dbInit.QueueLevel() == 1)
+    def test_commit_set(self):
+         self.dbInit.QueueSet(self.sets[0])
+         self.dbInit.CommitQueue()
 if __name__ == '__main__':
     unittest.main()

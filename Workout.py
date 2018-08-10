@@ -1,14 +1,25 @@
 import sqlite3
 class DBInterface:
-    def __init__(self):
-        print('Initializing Database')
+    def __init__(self, DbName):
+        print('Initializing Database', DbName)
         self.Queue = list()
-        conn = sqlite3.connect('WorkoutHistory.db')
+        self.dbName = DbName
+        conn = sqlite3.connect(self.dbName + '.db' )
         c = conn.cursor()
-        c.execute('CREATE  TABLE IF NOT EXISTS WorkoutHistory (name text, reps integer, weight integer, muscles text, date_ DATE PRIMARY KEY)')
-    def QueueSet(self, theSets):
-         for set in theSets:
-            self.Queue.append(set)
+        c.execute('CREATE  TABLE IF NOT EXISTS {0} (name text, reps integer, weight integer, muscles text, date_ DATE PRIMARY KEY)'.format(self.dbName ))
+    def QueueSet(self, theSet):
+         self.Queue.append(theSet)
+    def QueueLevel(self):
+         return len(self.Queue)
+    def CommitQueue(self):
+         conn = sqlite3.connect(self.dbName )
+         c = conn.cursor()
+         for item in self.Queue:
+             print('todo')#c.executemany('INSERT  TABLE  {0} '.format(self.dbName ))
+    def RemoveTable(self):
+         conn = sqlite3.connect(self.dbName )
+         c = conn.cursor()
+         c.execute('DROP  TABLE  {0} '.format(self.dbName ))
 class Set:
     def __init__(self, Name, Reps, Weight, Muscles, date):
         self.Name = Name
