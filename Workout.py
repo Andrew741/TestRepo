@@ -1,4 +1,5 @@
 import sqlite3
+#from datetime import datetime
 class DBInterface:
     def __init__(self, DbName):
         print('Initializing Database', DbName)
@@ -6,18 +7,29 @@ class DBInterface:
         self.dbName = DbName
         conn = sqlite3.connect(self.dbName + '.db' )
         c = conn.cursor()
-        c.execute('CREATE  TABLE IF NOT EXISTS {0} (name text, reps integer, weight integer, muscles text, date_ DATE PRIMARY KEY)'.format(self.dbName ))
+        c.execute('CREATE  TABLE IF NOT EXISTS {0} (name text, reps integer, weight integer, muscles text, date_ TEXT PRIMARY KEY)'.format(self.dbName ))
     def QueueSet(self, theSet):
          self.Queue.append(theSet)
     def QueueLevel(self):
          return len(self.Queue)
     def CommitQueue(self):
-         conn = sqlite3.connect(self.dbName )
+         conn = sqlite3.connect(self.dbName + '.db')
          c = conn.cursor()
          for item in self.Queue:
-             print('todo')#c.executemany('INSERT  TABLE  {0} '.format(self.dbName ))
+               itemTuple = [str(item.Name), int(item.Reps), int(item.Weight), str(item.Muscles), str(item.Date)]
+               try:
+                    c.execute('INSERT  INTO  {0} VALUES (?,?,?,?,?) '.format(self.dbName ), itemTuple)
+               except:
+                     print('Error inserting into table')
+         conn.commit()
+    def ReadDb(self):
+         conn = sqlite3.connect(self.dbName + '.db')
+         c = conn.cursor()
+         c.execute("SELECT * FROM {0}".format(self.dbName))
+         return c.fetchall()
+         
     def RemoveTable(self):
-         conn = sqlite3.connect(self.dbName )
+         conn = sqlite3.connect(self.dbName + '.db' )
          c = conn.cursor()
          c.execute('DROP  TABLE  {0} '.format(self.dbName ))
 class Set:

@@ -61,5 +61,6 @@ class WorkoutTestCase(unittest.TestCase):
     def test_commit_set(self):
          self.dbInit.QueueSet(self.sets[0])
          self.dbInit.CommitQueue()
+         self.assertTrue( len(self.dbInit.ReadDb()) == 1)
 if __name__ == '__main__':
     unittest.main()
