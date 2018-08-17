@@ -48,8 +48,9 @@ class WorkoutTestCase(unittest.TestCase):
          self.dbInit = DBInterface('WorkoutHistoryUnitTest')
          self.sets = list()
          self.sets.append(Set('Bench', 5, 140, 'Chest, Shoulders, Arms', time.strftime('%d%m%Y')))
+         #self.sets.append(Set('Bench', 5, 140, 'Chest, Shoulders, Arms', time.strftime('%d%m%Y')))
     def tearDown(self):  
-         #self.dbInit.RemoveTable()
+         self.dbInit.RemoveTable()
          self.sets = None
          self.dbInit = None
          print('tear down')
@@ -62,5 +63,13 @@ class WorkoutTestCase(unittest.TestCase):
          self.dbInit.QueueSet(self.sets[0])
          self.dbInit.CommitQueue()
          self.assertTrue( len(self.dbInit.ReadDb()) == 1)
+    def test_commit_set_read_it_back(self):
+         self.dbInit.QueueSet(self.sets[0])
+         self.dbInit.CommitQueue()
+         temp = self.dbInit.ReadDb()
+         setFromDb = Set(temp[0][0], temp[0][1], temp[0][2], temp[0][3], temp[0][4])
+         print(self.sets[0])
+         print(setFromDb)
+         self.assertTrue( setFromDb.Date == self.sets[0].Date)
 if __name__ == '__main__':
     unittest.main()

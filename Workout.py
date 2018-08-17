@@ -31,7 +31,7 @@ class DBInterface:
     def RemoveTable(self):
          conn = sqlite3.connect(self.dbName + '.db' )
          c = conn.cursor()
-         c.execute('DROP  TABLE  {0} '.format(self.dbName ))
+         c.execute('DROP  TABLE  {0}'.format(self.dbName ))
 class Set:
     def __init__(self, Name, Reps, Weight, Muscles, date):
         self.Name = Name
@@ -44,6 +44,10 @@ class Set:
 
     def calcEst1RM(self):
         return self.Weight * ( 1 + 0.0333*self.Reps)
-
-    def commitToDB(self):
-        print('TO DO')
+    def __str__(self):
+         s = 'Name = ' + self.Name + '\n\r'
+         s = s + 'Reps = ' + str(self.Reps) + '\n\r'
+         s = s + 'Weight = ' + str(self.Weight) + '\n\r'
+         s = s + 'Muscles Worked = ' + str(self.Muscles) + '\n\r'
+         s = s + 'Date = ' + str(self.Date) + '\n\r'
+         return s
