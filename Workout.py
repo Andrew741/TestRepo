@@ -27,11 +27,17 @@ class DBInterface:
          c = conn.cursor()
          c.execute("SELECT * FROM {0}".format(self.dbName))
          return c.fetchall()
-         
+    def   DeleteSet(self, theSet):
+         conn = sqlite3.connect(self.dbName + '.db' )
+         c = conn.cursor()
+         c.execute("DELETE FROM {0} WHERE date_ =?".format(self.dbName), (theSet.Date,))
+         conn.commit()
     def RemoveTable(self):
          conn = sqlite3.connect(self.dbName + '.db' )
          c = conn.cursor()
          c.execute('DROP  TABLE  {0}'.format(self.dbName ))
+     
+         
 class Set:
     def __init__(self, Name, Reps, Weight, Muscles, date):
         self.Name = Name
@@ -44,6 +50,7 @@ class Set:
 
     def calcEst1RM(self):
         return self.Weight * ( 1 + 0.0333*self.Reps)
+        
     def __str__(self):
          s = 'Name = ' + self.Name + '\n\r'
          s = s + 'Reps = ' + str(self.Reps) + '\n\r'

@@ -71,5 +71,10 @@ class WorkoutTestCase(unittest.TestCase):
          print(self.sets[0])
          print(setFromDb)
          self.assertTrue( setFromDb.Date == self.sets[0].Date)
+    def test_remove_set(self):
+         self.dbInit.QueueSet(self.sets[0])
+         self.dbInit.CommitQueue()
+         self.dbInit.DeleteSet(self.sets[0])
+         self.assertTrue( len(self.dbInit.ReadDb()) == 0)
 if __name__ == '__main__':
     unittest.main()
