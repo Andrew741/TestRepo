@@ -94,7 +94,7 @@ class WorkoutTestCase(unittest.TestCase):
          est1Rm = self.sets[-1].calcEst1RM()
          self.assertTrue( est1Rm == 245)
     def test_Calc_Volume_Workout(self):
-         print(self.Workout.calc_Volume())
-         self.assertTrue( self.Workout.calc_Volume() == 1295)
+         print('The volume of the workout is', self.Workout.calc_Volume())
+         self.assertTrue( self.Workout.calc_Volume() == 2785)
 if __name__ == '__main__':
     unittest.main()

@@ -54,6 +54,7 @@ class Workout:
       v = 0
       for set in self.Exercises:
          v = v + set.calcVolume()
+      return v
          
 class Set:
     def __init__(self, Name, Reps, Weight, Muscles, date, ID):
