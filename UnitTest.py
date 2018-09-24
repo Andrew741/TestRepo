@@ -3,6 +3,7 @@ from Logger import Logger
 from Workout import DBInterface
 from Workout import Set
 from Workout import Workout
+from MPU6050 import MPU6050 as gyro
 import os.path
 import time 
 
@@ -44,6 +45,9 @@ class LoggerTestCase(unittest.TestCase):
         suite.addTest(LoggerTestCase('test_log_complex'))
         return suite        
 
+#####################################
+#   Workout tests: these actually "matter"
+#####################################
 class WorkoutTestCase(unittest.TestCase):
     def setUp(self):
          self.dbInit = DBInterface('WorkoutHistoryUnitTest')
@@ -96,5 +100,11 @@ class WorkoutTestCase(unittest.TestCase):
     def test_Calc_Volume_Workout(self):
          print('The volume of the workout is', self.Workout.calc_Volume())
          self.assertTrue( self.Workout.calc_Volume() == 2785)
+
+class MPU6050Testcase(unittest.TestCase):
+  def setUp(self):
+    print('Running Test')
+  def tearDown(self):
+    print('tearing down')
 if __name__ == '__main__':
     unittest.main()
